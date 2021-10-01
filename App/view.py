@@ -25,7 +25,10 @@ import sys
 import controller
 from DISClib.ADT import list as lt
 assert cf
-
+from DISClib.ADT import list as lt
+from DISClib.ADT import map as mp
+from DISClib.DataStructures import mapentry as me
+from DISClib.Algorithms.Sorting import shellsort as sa
 
 """
 La vista se encarga de la interacción con el usuario
@@ -39,7 +42,7 @@ def printMenu():
     print("1- Cargar información en el catálogo")
     print("2- ")
 
-catalog = None
+catalog= controller.initCatalog()
 
 """
 Menu principal
@@ -49,6 +52,11 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
+        controller.loadData(catalog)
+        
+        print( "Cantidad de artistas cargados: " + str(controller.ArtistSize(catalog)))
+        print("Cantidad de obras cargadas: " + str(controller.ArtworkSize(catalog)))
+        #print(controller.ArtworkSize(catalog))
 
     elif int(inputs[0]) == 2:
         pass

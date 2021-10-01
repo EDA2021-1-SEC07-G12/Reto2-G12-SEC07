@@ -37,13 +37,50 @@ Se define la estructura de un catálogo de videos. El catálogo tendrá dos list
 los mismos.
 """
 
+
+
 # Construccion de modelos
 
+def newCatalog():
+    
+    catalog = {"Lista_artistas" : None,
+                "Lista_obras":None}
+
+    catalog["Lista_artistas"] = mp.newMap(1949,
+        maptype="CHAINING", loadfactor=1.5)
+    
+    catalog["Lista_obras"] = mp.newMap(769,
+        maptype="CHAINING", loadfactor=1.5)
+
+
+
+    return catalog
 # Funciones para agregar informacion al catalogo
+def addArtist(catalog, artist):
+    
+    lista=catalog["Lista_artistas"]
+    mp.put(lista, artist["ConstituentID"], artist)
+
+
+def addArtwork(catalog, artwork):
+    lista=catalog["Lista_obras"]
+    mp.put(lista, artwork["ObjectID"], artwork)
+
 
 # Funciones para creacion de datos
 
+
+
+
+
 # Funciones de consulta
+
+def ArtworkSize(catalog):
+    return mp.size(catalog["Lista_obras"])
+
+def AuthorsSize(catalog):   
+
+    return mp.size(catalog["Lista_artistas"])
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
