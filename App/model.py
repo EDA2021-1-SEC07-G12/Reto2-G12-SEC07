@@ -44,7 +44,8 @@ los mismos.
 def newCatalog():
     
     catalog = {"Lista_artistas" : None,
-                "Lista_obras":None}
+                "Lista_obras":None,
+                "medios" : None}
 
     catalog["Lista_artistas"] = mp.newMap(1949,
         maptype="CHAINING", loadfactor=1.5)
@@ -52,7 +53,7 @@ def newCatalog():
     catalog["Lista_obras"] = mp.newMap(769,
         maptype="CHAINING", loadfactor=1.5)
 
-
+    catalog["medios"] = mp.newMap(1949, maptype="CHAINGING" , loadfactor=1.5, )
 
     return catalog
 # Funciones para agregar informacion al catalogo
@@ -67,6 +68,20 @@ def addArtwork(catalog, artwork):
     mp.put(lista, artwork["ObjectID"], artwork)
 
 
+def addMedium(catalog, artwork):
+
+    lista=catalog["medios"]
+    array=lt.newList(datastructure='ARRAY_LIST')
+    
+    if mp.contains(lista,artwork["Medium"] )== False:
+        lt.addLast(array,artwork)
+        mp.put(lista, artwork["Medium"], array)
+
+    else:
+        lt.addLast(array, artwork)
+        mp.put(lista, artwork["Medium"], array)
+
+    
 # Funciones para creacion de datos
 
 
