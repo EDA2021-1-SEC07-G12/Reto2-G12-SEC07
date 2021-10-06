@@ -40,7 +40,7 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- ")
+    print("2- Ordenar autores por intervalo de tiempo")
 
 catalog= controller.initCatalog()
 
@@ -54,16 +54,22 @@ while True:
         print("Cargando información de los archivos ....")
         controller.loadData(catalog)
        # 
-       # print( "Cantidad de artistas cargados: " + str(controller.ArtistSize(catalog)))
-      #  print("Cantidad de obras cargadas: " + str(controller.ArtworkSize(catalog)))
+        print( "Cantidad de artistas cargados: " + str(controller.ArtistSize(catalog)))
+        print("Cantidad de obras cargadas: " + str(controller.ArtworkSize(catalog)))
         #print(controller.ArtworkSize(catalog))
-        variable =catalog["medios"]
-        variable2 = mp.keySet(variable)
-        for i in lt.iterator(variable2):
-            print(i)
+        
+        
     elif int(inputs[0]) == 2:
-        pass
 
+
+        print(controller.artistas(catalog))
+
+    elif int(inputs[0]) == 3:
+    
+
+        print(controller.c3(catalog))
+    
+    
     else:
         sys.exit(0)
 sys.exit(0)
