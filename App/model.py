@@ -112,6 +112,8 @@ def ordenarEdadAutores(catalog,inicio,final):
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
+
+
 def asignarArtista(catalog):
     obras= catalog["Lista_obras"]
     artistas = catalog["Lista_artistas"]
@@ -137,14 +139,30 @@ def asignarArtista(catalog):
         else:
             valor = mp.get(catalog["nacionalidad"], nacionalidad)
             lt.addLast(valor["value"],i)
-    print(mp.get(catalog["nacionalidad"], "Afghan"))
+    print(mp.get(catalog["nacionalidad"], "Colombian"))
        
-    
+def requerimiento3(catalog, artista):
+    obras = catalog["Lista_obras"]
+    artistas= catalog["Lista_artistas"]
+
+    valoresArt= mp.valueSet(artistas)
+    for i in lt.iterator(valoresArt):
+        if i["DisplayName"]==artista:
+            artista_cons=i["ConstituentID"]
+    lista_obras=lt.newList("ARRAY_LIST")
+
+    for j in lt.iterator(mp.valueSet(obras)):
+        if "[" + str(artista_cons) + "]"==j["ConstituentID"]:
+            lt.addLast(lista_obras,j)
+
+    print(lista_obras)
+
 # Funciones de ordenamiento
 
 
 
 def OrdenarFechas(artista1,artista2):
+
     Retorno=True
     if int(artista1["BeginDate"])<=int(artista2["BeginDate"]):
         Retorno=True
@@ -154,69 +172,3 @@ def OrdenarFechas(artista1,artista2):
 
 
 
-def requerimiento_4_1(catalogo):
-    obras=catalogo['lista_obras']
-    artistas=catalogo['lista_artistas']
-    lista_codigos_a=lt.newList('ARRAY_LIST')
-    for k in range(lt.size(artistas)):
-        elemento_a=lt.getElement(artistas,k)
-        codigo_a=elemento_a['ConstituentID']
-        lt.addLast(lista_codigos_a,codigo_a)
-    lista_nacionalidad=lt.newList('ARRAY_LIST')  
-    for i in range(lt.size(obras)):
-        elemento_o=lt.getElement(obras,i)
-        codigo_o=elemento_o['ConstituentID']
-        codigo_o=codigo_o.replace('[',"")
-        codigo_o=codigo_o.replace(']',"")
-        posi=lt.isPresent(lista_codigos_a,codigo_o)
-        elemento_final=lt.getElement(artistas,posi)
-        nacionalidad=elemento_final['Nationality']
-        lt.addLast(lista_nacionalidad,nacionalidad)
-    nacionalidades_filtradas= eliminarRepetidos(lista_nacionalidad)
-    n_contadas=contar(lista_nacionalidad,nacionalidades_filtradas)
-    ordenada=ms.sort(n_contadas,OrdenarNacionalidad)
-    top_10=lt.subList(ordenada,1,10)
-    dict_top_10={}
-    lista_paises=lt.newList('ARRAY_LIST')
-    for c in top_10['elements']:
-        lt.addLast(lista_paises,c['elements'][1])
-        if c['elements'][1]=="":
-            dict_top_10['Unkown']=c['size']
-        else:
-            dict_top_10[c['elements'][1]]=c['size']
-    respuesta=(dict_top_10,lista_paises)
-    return respuesta
-def requerimiento_4_2(catalogo,lista_paises):
-    pais=lt.getElement(lista_paises,1)
-    obras=catalogo['lista_obras']
-    artistas=catalogo['lista_artistas']
-    lista_codigos_a=lt.newList('ARRAY_LIST')
-    for k in range(lt.size(artistas)):
-        elemento_a=lt.getElement(artistas,k)
-        codigo_a=elemento_a['ConstituentID']
-        lt.addLast(lista_codigos_a,codigo_a)
-    lista_obras_pais=lt.newList('ARRAY_LIST')
-    for i in range(lt.size(obras)):
-        elemento_o=lt.getElement(obras,i)
-        codigo_o=elemento_o['ConstituentID']
-        codigo_o=codigo_o.replace('[',"")
-        codigo_o=codigo_o.replace(']',"")
-        posi=lt.isPresent(lista_codigos_a,codigo_o)
-        elemento_final=lt.getElement(artistas,posi)
-        nacionalidad=elemento_final['Nationality']
-        resp_obra=lt.newList('ARRAY_LIST')
-        lt.addLast(resp_obra,elemento_o['Title'])
-        lt.addLast(resp_obra,elemento_final['DisplayName'])
-        lt.addLast(resp_obra,elemento_o['Date'])
-        lt.addLast(resp_obra,elemento_o['Medium'])
-        lt.addLast(resp_obra,elemento_o['Dimensions'])
-        if nacionalidad==pais:
-            lt.addLast(lista_obras_pais,resp_obra)
-    lista_final=lt.newList('ARRAY_LIST')
-    lt.addLast(lista_final,lt.getElement(lista_obras_pais,1))
-    lt.addLast(lista_final,lt.getElement(lista_obras_pais,2))
-    lt.addLast(lista_final,lt.getElement(lista_obras_pais,3))
-    lt.addLast(lista_final,lt.getElement(lista_obras_pais,-1))
-    lt.addLast(lista_final,lt.getElement(lista_obras_pais,-2))
-    lt.addLast(lista_final,lt.getElement(lista_obras_pais,-3))
-    print (lista_final)
