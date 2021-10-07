@@ -41,7 +41,8 @@ def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
     print("2- Ordenar autores por intervalo de tiempo")
-
+    print("3- Ordenar obras por nacionalidad")
+    print("4- Ordenar medios de un artistas")
 catalog= controller.initCatalog()
 
 """
@@ -69,7 +70,11 @@ while True:
 
         print(controller.c3(catalog))
     
+    elif int(inputs[0]) == 4:
     
+
+        print(controller.requerimiento3(catalog))
+
     else:
         sys.exit(0)
 sys.exit(0)

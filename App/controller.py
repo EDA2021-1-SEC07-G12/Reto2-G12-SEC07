@@ -42,13 +42,13 @@ def loadData(catalog):
     loadArtWork(catalog)
     loadMedium(catalog)
 def loadArtist(catalog):
-    booksfile = cf.data_dir + 'Artists-utf8-large.csv'
+    booksfile = cf.data_dir + 'Artists-utf8-small.csv'
     input_file = csv.DictReader(open(booksfile, encoding='utf-8'))
     for Artist in input_file:
         model.addArtist(catalog, Artist)
 
 def loadArtWork(catalog):
-    booksfile = cf.data_dir + 'Artworks-utf8-large.csv'
+    booksfile = cf.data_dir + 'Artworks-utf8-small.csv'
     input_file = csv.DictReader(open(booksfile, encoding='utf-8'))
     for ArtWorks in input_file:
         model.addArtwork(catalog, ArtWorks)
@@ -56,14 +56,14 @@ def loadArtWork(catalog):
 
 
 def loadArtWork(catalog):
-    booksfile = cf.data_dir + 'Artworks-utf8-large.csv'
+    booksfile = cf.data_dir + 'Artworks-utf8-small.csv'
     input_file = csv.DictReader(open(booksfile, encoding='utf-8'))
     for ArtWorks in input_file:
         model.addArtwork(catalog, ArtWorks)
 
 
 def loadMedium(catalog):
-    booksfile = cf.data_dir + 'Artworks-utf8-large.csv'
+    booksfile = cf.data_dir + 'Artworks-utf8-small.csv'
     input_file = csv.DictReader(open(booksfile, encoding='utf-8'))
     for Medium in input_file:
         model.addMedium(catalog, Medium)
@@ -84,7 +84,9 @@ def artistas(catalog):
 
     return model.ordenarEdadAutores(catalog, inicio, final)
 
-
+def requerimiento3(catalog):
+    artistas= input("Inserte artista: ")
+    return model.requerimiento3(catalog, artistas)
 
 def c3(catalog):
     return model.asignarArtista(catalog)

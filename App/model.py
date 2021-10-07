@@ -112,7 +112,7 @@ def ordenarEdadAutores(catalog,inicio,final):
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
-
+#Prueba
 
 def asignarArtista(catalog):
     obras= catalog["Lista_obras"]
