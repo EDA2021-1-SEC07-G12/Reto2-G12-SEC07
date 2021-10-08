@@ -25,6 +25,7 @@
  """
 
 
+from App.controller import artistas
 import config as cf
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
@@ -154,12 +155,41 @@ def requerimiento3(catalog, artista):
     lista_obras=lt.newList("ARRAY_LIST")
 
     for j in lt.iterator(mp.valueSet(obras)):
-        if "[" + str(artista_cons) + "]"==j["ConstituentID"]:
+        lista=j["ConstituentID"]
+        lista=lista.replace('[',"")
+        lista=lista.replace(']',"")
+        lista=lista.split(",")
+        
+        if artista_cons in lista:
             lt.addLast(lista_obras,j)
 
-    print(lista_obras)
-
+    contar = contarObras(lista_obras)
+    for x in lt.iterator(mp.valueSet(contar)):
+        print(x)
+    for z in lt.iterator(mp.keySet(contar)):
+        print(z)
 # Funciones de ordenamiento
+
+def agregarAutores(catalog):
+    obras= catalog["Lista_obras"]
+    artistas = catalog["Lista_artistas"]
+    
+
+def contarObras(catalog):
+    medios=mp.newMap(1949, maptype="CHAINING" , loadfactor=1.5)
+    
+    for i in lt.iterator(catalog):
+        
+        if mp.contains(medios,i["Medium"])==False:
+            
+         mp.put(medios,i["Medium"],1)
+        else:
+            dato = mp.get(medios,i["Medium"])
+            value=dato["value"]
+            value=int(value)+1
+            mp.put(medios,i["Medium"],value)
+    
+    return medios
 
 
 
