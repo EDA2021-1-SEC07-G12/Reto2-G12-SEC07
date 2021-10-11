@@ -43,6 +43,7 @@ def printMenu():
     print("2- Ordenar autores por intervalo de tiempo")
     print("3- Ordenar obras por nacionalidad")
     print("4- Ordenar medios de un artistas")
+    print("5- Ver mapa medios")
 catalog= controller.initCatalog()
 
 """
@@ -75,6 +76,10 @@ while True:
 
         print(controller.requerimiento3(catalog))
 
+    elif int(inputs[0]) == 5:
+        
+
+        print(controller.mapaMedios(catalog))
     else:
         sys.exit(0)
 sys.exit(0)

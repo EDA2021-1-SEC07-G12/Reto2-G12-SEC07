@@ -90,3 +90,6 @@ def requerimiento3(catalog):
 
 def c3(catalog):
     return model.asignarArtista(catalog)
+
+def mapaMedios(catalog):
+    return model.crearIndiceMedios(catalog)

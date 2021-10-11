@@ -86,9 +86,21 @@ def addMedium(catalog, artwork):
 
 # Funciones para creacion de datos
 
+def crearIndiceMedios(catalog):
+    mapaMedios=mp.newMap(1949, maptype="CHAINING" , loadfactor=1)
 
-
-
+    for i in lt.iterator(mp.valueSet(catalog["Lista_obras"])):
+        lista=lt.newList("ARRAY_LIST")
+        
+        if mp.contains(mapaMedios,i["Medium"])==False:
+            lt.addLast(lista,i)
+            mp.put(mapaMedios, i["Medium"],lista)
+        else:
+            dato = mp.get(mapaMedios,i["Medium"])
+            value=dato["value"]
+            lt.addLast(value,i)
+            mp.put(mapaMedios,i["Medium"],value)
+    return mp.get(mapaMedios,"Drypoint")
 
 # Funciones de consulta
 
