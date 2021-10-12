@@ -40,7 +40,7 @@ def initCatalog():
 def loadData(catalog):
     loadArtist(catalog)
     loadArtWork(catalog)
-    loadMedium(catalog)
+    
 def loadArtist(catalog):
     booksfile = cf.data_dir + 'Artists-utf8-large.csv'
     input_file = csv.DictReader(open(booksfile, encoding='utf-8'))
@@ -62,11 +62,7 @@ def loadArtWork(catalog):
         model.addArtwork(catalog, ArtWorks)
 
 
-def loadMedium(catalog):
-    booksfile = cf.data_dir + 'Artworks-utf8-large.csv'
-    input_file = csv.DictReader(open(booksfile, encoding='utf-8'))
-    for Medium in input_file:
-        model.addMedium(catalog, Medium)
+
 # Funciones de ordenamiento
 
 # Funciones de consulta sobre el catálogo
@@ -89,7 +85,7 @@ def requerimiento3(catalog):
     return model.requerimiento3(catalog, artistas)
 
 def c3(catalog):
-    return model.asignarArtista(catalog)
+    return model.indiceNacionalidad(catalog)
 
 def mapaMedios(catalog):
     return model.crearIndiceMedios(catalog)

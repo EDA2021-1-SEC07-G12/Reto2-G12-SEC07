@@ -31,6 +31,7 @@ from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
 from DISClib.DataStructures import mapentry as me
 from DISClib.Algorithms.Sorting import shellsort as sa
+import time
 assert cf
 
 """
@@ -55,8 +56,8 @@ def newCatalog():
     catalog["Lista_obras"] = mp.newMap(769,
         maptype="CHAINING", loadfactor=1.5)
 
-    catalog["medios"] = mp.newMap(1949, maptype="CHAINING" , loadfactor=1.5, )
-    catalog["nacionalidad"] = mp.newMap(1949, maptype="CHAINING" , loadfactor=1.5, )
+    
+    catalog["nacionalidad"] = mp.newMap(30000, maptype="PROBING" , loadfactor=0.8 )
     return catalog
 # Funciones para agregar informacion al catalogo
 def addArtist(catalog, artist):
@@ -70,24 +71,14 @@ def addArtwork(catalog, artwork):
     mp.put(lista, artwork["ObjectID"], artwork)
 
 
-def addMedium(catalog, artwork):
-
-    lista=catalog["medios"]
-    array=lt.newList(datastructure='ARRAY_LIST')
-    
-    if mp.contains(lista,artwork["Medium"] )== False:
-        lt.addLast(array,artwork)
-        mp.put(lista, artwork["Medium"], array)
-
-    else:
-        lt.addLast(array, artwork)
-        mp.put(lista, artwork["Medium"], array)
 
 
 # Funciones para creacion de datos
 
 def crearIndiceMedios(catalog):
-    mapaMedios=mp.newMap(1949, maptype="CHAINING" , loadfactor=1)
+    
+    start_time = time.process_time()
+    mapaMedios=mp.newMap(30000, maptype="CHAINING" , loadfactor=0.8)
 
     for i in lt.iterator(mp.valueSet(catalog["Lista_obras"])):
         lista=lt.newList("ARRAY_LIST")
@@ -100,7 +91,14 @@ def crearIndiceMedios(catalog):
             value=dato["value"]
             lt.addLast(value,i)
             mp.put(mapaMedios,i["Medium"],value)
-    return mp.get(mapaMedios,"Drypoint")
+
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000   
+    
+    
+    print(elapsed_time_mseg)
+   # return mapaMedios
+
 
 # Funciones de consulta
 
@@ -119,6 +117,7 @@ def ordenarEdadAutores(catalog,inicio,final):
         if inicio<=int(i["BeginDate"])<=final:
             lt.addLast(lista,i)
     ordenados = sa.sort(lista,OrdenarFechas)
+    
     return ordenados
 
 
@@ -129,7 +128,8 @@ def ordenarEdadAutores(catalog,inicio,final):
 
 #Prueba rama prueba
 
-def asignarArtista(catalog):
+def indiceNacionalidad(catalog):
+    start_time = time.process_time()
     obras= catalog["Lista_obras"]
     artistas = catalog["Lista_artistas"]
 
@@ -154,8 +154,14 @@ def asignarArtista(catalog):
         else:
             valor = mp.get(catalog["nacionalidad"], nacionalidad)
             lt.addLast(valor["value"],i)
-    print(mp.get(catalog["nacionalidad"], "Colombian"))
-       
+    
+    
+    
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000   
+    print(elapsed_time_mseg)
+
+
 def requerimiento3(catalog, artista):
     obras = catalog["Lista_obras"]
     artistas= catalog["Lista_artistas"]
@@ -176,10 +182,9 @@ def requerimiento3(catalog, artista):
             lt.addLast(lista_obras,j)
 
     contar = contarObras(lista_obras)
-    for x in lt.iterator(mp.valueSet(contar)):
-        print(x)
-    for z in lt.iterator(mp.keySet(contar)):
-        print(z)
+    stop_time = time.process_time()
+
+
 # Funciones de ordenamiento
 
 def agregarAutores(catalog):
