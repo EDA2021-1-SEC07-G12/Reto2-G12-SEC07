@@ -31,9 +31,10 @@ from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
 from DISClib.DataStructures import mapentry as me
 from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.ADT import orderedmap as om
 import time
 assert cf
-
+from datetime import date
 """
 Se define la estructura de un catálogo de videos. El catálogo tendrá dos listas, una para los videos, otra para las categorias de
 los mismos.
@@ -57,7 +58,7 @@ def newCatalog():
         maptype="CHAINING", loadfactor=1.5)
 
     
-    catalog["nacionalidad"] = mp.newMap(30000, maptype="PROBING" , loadfactor=0.8 )
+    catalog["nacionalidad"] =  mp.newMap(30000, maptype="PROBING" , loadfactor=0.8 )
     return catalog
 # Funciones para agregar informacion al catalogo
 def addArtist(catalog, artist):
@@ -105,8 +106,7 @@ def crearIndiceMedios(catalog):
 def ArtworkSize(catalog):
     return mp.size(catalog["Lista_obras"])
 
-def AuthorsSize(catalog):   
-
+def AuthorsSize(catalog):    
     return mp.size(catalog["Lista_artistas"])
 
 
@@ -127,6 +127,29 @@ def ordenarEdadAutores(catalog,inicio,final):
 #Prueba
 
 #Prueba rama prueba
+
+def ordenarObras(dia1,mes1,anio1, dia2, mes2,anio2,catalogo):
+       
+    lista=lt.newList("ARRAY_LIST")
+    inicial=date(anio1,mes1,dia1).isoformat()
+    final=date(anio2,mes2,dia2).isoformat()
+
+    for i in lt.iterator(mp.valueSet(catalogo["Lista_obras"])):
+        
+
+        if inicial<=i["DateAcquired"]<=final:
+            lt.addLast(lista,i)
+    
+    autores=lt.newList("ARRAY_LIST")
+    for j in lt.iterator(lista):
+        lista=j["ConstituentID"]
+        lista=lista.replace('[',"")
+        lista=lista.replace(']',"")
+        lista=lista.split(",")
+        for k in lista:
+            lt.addLast(autores,k)
+
+    return autores
 
 def indiceNacionalidad(catalog):
     start_time = time.process_time()
@@ -182,7 +205,7 @@ def requerimiento3(catalog, artista):
             lt.addLast(lista_obras,j)
 
     contar = contarObras(lista_obras)
-    stop_time = time.process_time()
+    return contar
 
 
 # Funciones de ordenamiento

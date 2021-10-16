@@ -42,13 +42,13 @@ def loadData(catalog):
     loadArtWork(catalog)
     
 def loadArtist(catalog):
-    booksfile = cf.data_dir + 'Artists-utf8-large.csv'
+    booksfile = cf.data_dir + 'Artists-utf8-small.csv'
     input_file = csv.DictReader(open(booksfile, encoding='utf-8'))
     for Artist in input_file:
         model.addArtist(catalog, Artist)
 
 def loadArtWork(catalog):
-    booksfile = cf.data_dir + 'Artworks-utf8-large.csv'
+    booksfile = cf.data_dir + 'Artworks-utf8-small.csv'
     input_file = csv.DictReader(open(booksfile, encoding='utf-8'))
     for ArtWorks in input_file:
         model.addArtwork(catalog, ArtWorks)
@@ -56,7 +56,7 @@ def loadArtWork(catalog):
 
 
 def loadArtWork(catalog):
-    booksfile = cf.data_dir + 'Artworks-utf8-large.csv'
+    booksfile = cf.data_dir + 'Artworks-utf8-small.csv'
     input_file = csv.DictReader(open(booksfile, encoding='utf-8'))
     for ArtWorks in input_file:
         model.addArtwork(catalog, ArtWorks)
@@ -89,3 +89,14 @@ def c3(catalog):
 
 def mapaMedios(catalog):
     return model.crearIndiceMedios(catalog)
+
+def organizar_obras(catalog):
+    dia1=int(input("Inserte dia inicial : "))
+    mes1=int(input("Inserte mes inicial : "))
+    anio1=int(input("Inserte año inicial : "))
+
+    dia2=int(input("Inserte dia final : "))
+    mes2=int(input("Inserte mes final : "))
+    anio2=int(input("Inserte año final : "))
+    
+    return model.ordenarObras(dia1,mes1,anio1, dia2, mes2,anio2,catalog)
