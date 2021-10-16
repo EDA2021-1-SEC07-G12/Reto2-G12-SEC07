@@ -147,8 +147,9 @@ def ordenarObras(dia1,mes1,anio1, dia2, mes2,anio2,catalogo):
         lista=lista.replace(']',"")
         lista=lista.split(",")
         for k in lista:
-            lt.addLast(autores,k)
-    
+            if lt.isPresent(autores,k)==0:
+                lt.addLast(autores,k)
+                
     return autores
 
 def indiceNacionalidad(catalog):
