@@ -145,10 +145,13 @@ def ordenarObras(dia1,mes1,anio1, dia2, mes2,anio2,catalogo):
         lista=j["ConstituentID"]
         lista=lista.replace('[',"")
         lista=lista.replace(']',"")
+        lista=lista.replace(' ',"")
         lista=lista.split(",")
+
         for k in lista:
-            k=k.replace(' ',"")
+            
            # if lt.isPresent(autores,k)==0:
+
             lt.addLast(autores,k)
 
     return autores
@@ -210,6 +213,74 @@ def requerimiento3(catalog, artista):
     return contar
 
 
+
+def requerimiento5(catalog, departamento):
+    mapa=crearMapaReq5(catalog)
+    departament= mp.get(mapa,departamento)
+    obras=departament["value"]
+    costos=calcularCostos(obras)
+    
+
+def crearMapaReq5(catalog):
+    mapa=mp.newMap(30000, maptype="PROBING" , loadfactor=0.8 )
+    for i in lt.iterator(mp.valueSet(catalog["Lista_obras"])):
+        lista=lt.newList("ARRAY_LIST")
+        
+        if mp.contains(mapa,i["Department"])==False:
+            lt.addLast(lista,i)
+            mp.put(mapa, i["Department"],lista)
+        else:
+            dato = mp.get(mapa,i["Department"])
+            value=dato["value"]
+            lt.addLast(value,i)
+            mp.put(mapa,i["Department"],value)
+    return mapa
+
+def calcularCostos(catalogo):
+    for i in lt.iterator(catalogo):
+       
+        if i["Height (cm)"]!= "":
+
+            altura= float(i["Height (cm)"])/100
+        elif i["Length (cm)"]!="":
+            altura=float(i["Length (cm)"])/100
+        else:
+            altura=0
+        if i["Width (cm)"]!="":
+
+            ancho = float(i["Width (cm)"])/100
+        else:
+            ancho=0
+        
+        if i["Depth (cm)"]!="":
+
+            profundidad= float(i["Depth (cm)"])/100
+        else:
+            profundidad=0
+            
+        if i["Weight (kg)"]!= "":
+
+            peso=float(i["Weight (kg)"])
+        else:
+            peso=0
+        
+        if i["Diameter (cm)"]!="":
+
+            radio = ((float(i["Diameter (cm)"])/2)/100)
+        else:
+            radio=0
+
+        
+        area=altura*ancho*72
+        volumen=altura*ancho*profundidad*72
+        peso = peso*72
+        area_cir=(radio*radio*radio)*4*3.1416/3*72
+        lista=[area,volumen,peso,area_cir]
+        if max(lista)==0:
+            i["Costo"]=48
+        else:
+            i["Costo"] = max(lista)
+    return catalogo
 # Funciones de ordenamiento
 
 def agregarAutores(catalog):

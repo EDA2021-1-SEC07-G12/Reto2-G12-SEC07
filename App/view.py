@@ -45,6 +45,7 @@ def printMenu():
     print("4- Ordenar medios de un artistas")
     print("5- Ver mapa medios")
     print("6- Organizar obras por fecha de adquisición")
+    print("7- Crear mapa departamento")
 catalog= controller.initCatalog()
 
 """
@@ -86,6 +87,11 @@ while True:
         
 
         print(controller.organizar_obras(catalog))
+    
+    elif int(inputs[0]) == 7:
+        
+
+        print(controller.requerimiento5(catalog))
     
     else:
         sys.exit(0)
