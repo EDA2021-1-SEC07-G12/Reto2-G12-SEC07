@@ -71,7 +71,7 @@ while True:
     elif int(inputs[0]) == 3:
     
 
-        print(controller.c3(catalog))
+        print(controller.requerimiento4(catalog))
     
     elif int(inputs[0]) == 4:
     

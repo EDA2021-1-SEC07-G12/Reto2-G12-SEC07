@@ -42,13 +42,13 @@ def loadData(catalog):
     loadArtWork(catalog)
     
 def loadArtist(catalog):
-    booksfile = cf.data_dir + 'Artists-utf8-small.csv'
+    booksfile = cf.data_dir + 'Artists-utf8-large.csv'
     input_file = csv.DictReader(open(booksfile, encoding='utf-8'))
     for Artist in input_file:
         model.addArtist(catalog, Artist)
 
 def loadArtWork(catalog):
-    booksfile = cf.data_dir + 'Artworks-utf8-small.csv'
+    booksfile = cf.data_dir + 'Artworks-utf8-large.csv'
     input_file = csv.DictReader(open(booksfile, encoding='utf-8'))
     for ArtWorks in input_file:
         model.addArtwork(catalog, ArtWorks)
@@ -56,7 +56,7 @@ def loadArtWork(catalog):
 
 
 def loadArtWork(catalog):
-    booksfile = cf.data_dir + 'Artworks-utf8-small.csv'
+    booksfile = cf.data_dir + 'Artworks-utf8-large.csv'
     input_file = csv.DictReader(open(booksfile, encoding='utf-8'))
     for ArtWorks in input_file:
         model.addArtwork(catalog, ArtWorks)
@@ -104,3 +104,7 @@ def organizar_obras(catalog):
 def requerimiento5(catalog):
 
     return model.requerimiento5(catalog,"Drawings & Prints" )
+
+def requerimiento4(catalog):
+
+    return model.requerimiento_4(catalog)

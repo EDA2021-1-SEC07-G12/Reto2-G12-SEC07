@@ -24,7 +24,7 @@
  * Dario Correal - Version inicial
  """
 
-
+from DISClib.Algorithms.Sorting import mergesort as ms
 from App.controller import artistas
 import config as cf
 from DISClib.ADT import list as lt
@@ -111,6 +111,7 @@ def AuthorsSize(catalog):
 
 
 def ordenarEdadAutores(catalog,inicio,final):
+    start_time = time.process_time()
     autores = catalog["Lista_artistas"]
     lista= lt.newList(datastructure='ARRAY_LIST')
     for i in lt.iterator(mp.valueSet(autores)):
@@ -124,7 +125,13 @@ def ordenarEdadAutores(catalog,inicio,final):
     for a in lt.iterator(ultimos3):
         lt.addLast(primeros3,a)
     lt.addLast(retorno,primeros3)
-    return retorno
+
+    
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000
+    print(elapsed_time_mseg)
+
+    #return retorno
 
 
 
@@ -135,7 +142,7 @@ def ordenarEdadAutores(catalog,inicio,final):
 #Prueba rama prueba
 
 def ordenarObras(dia1,mes1,anio1, dia2, mes2,anio2,catalogo):
-       
+    start_time = time.process_time()
     lista=lt.newList("ARRAY_LIST")
     inicial=date(anio1,mes1,dia1).isoformat()
     final=date(anio2,mes2,dia2).isoformat()
@@ -153,7 +160,6 @@ def ordenarObras(dia1,mes1,anio1, dia2, mes2,anio2,catalogo):
         lista1=lista1.replace(']',"")
         lista1=lista1.replace(' ',"")
         lista1=lista1.split(",")
-
         for k in lista1:
             
            # if lt.isPresent(autores,k)==0:
@@ -173,42 +179,93 @@ def ordenarObras(dia1,mes1,anio1, dia2, mes2,anio2,catalogo):
     for a in lt.iterator(ultimos3):
         lt.addLast(primeros3,a)
     lt.addLast(retorno,primeros3)
-    return retorno
+
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000
+    print(elapsed_time_mseg)
+
+
+    #return retorno
+
 def indiceNacionalidad(catalog):
-    start_time = time.process_time()
+    
     obras= catalog["Lista_obras"]
     artistas = catalog["Lista_artistas"]
-
     keyObras = mp.valueSet(obras)
     valueArt=mp.valueSet(artistas)
     for i in lt.iterator(keyObras):
         const = i["ConstituentID"]
-        
         const=const.replace('[',"")
         const=const.replace(']',"")
         const=const.split(",")
         constfinal= const[0]
         artista1 = mp.get(artistas, constfinal)
-        
         nacionalidad = artista1["value"]["Nationality"]
-        
-        
-        if mp.contains(catalog["nacionalidad"], nacionalidad)== False:
+    if mp.contains(catalog["nacionalidad"], nacionalidad)== False:
             lista = lt.newList("ARRAY_LIST")
             lt.addLast(lista,i)
             mp.put(catalog["nacionalidad"], nacionalidad, lista)
-        else:
+    else:
             valor = mp.get(catalog["nacionalidad"], nacionalidad)
+
             lt.addLast(valor["value"],i)
-    
-    
-    
+    desconociada=mp.get(catalog['nacionalidad'],"Nationality unknown")
+    vacia=mp.get(catalog['nacionalidad'],"")
+    paises_unknown=lt.newList('ARRAY_LIST')
+    if lt.size(desconociada['value'])>lt.size(vacia['value']):
+        paises_unknown=desconociada['value']
+        for z in vacia['value']:
+            lt.addLast(paises_unknown,z)
+    else:
+        paises_unknown=vacia['value']
+        for z in desconociada['value']:
+            lt.addLast(paises_unknown,z)
+    mp.put(catalog['nacionalidad'],'Nationality unknown',paises_unknown)
+    mp.remove(catalog['nacionalidad'],'')
     stop_time = time.process_time()
-    elapsed_time_mseg = (stop_time - start_time)*1000   
+    
+
+    return(catalog['nacionalidad'])
+
+def requerimiento_4(catalog):
+    start_time = time.process_time()
+
+
+    mapa=indiceNacionalidad(catalog)
+    llaves=mp.keySet(mapa)
+    obras_x_pais=lt.newList('ARRAY_LIST')
+
+    for i in lt.iterator(llaves):
+        elemento=mp.get(mapa,i)
+        tamano=lt.size(elemento['value'])
+        tupla=(i,tamano)
+        lt.addLast(obras_x_pais,tupla)
+    ordenada=ms.sort(obras_x_pais,OrdenarNacionalidad)
+    top10=lt.subList(ordenada,1,10)
+    primero=lt.getElement(top10,1)
+    final=primero[0]
+    obras=mp.get(mapa,final)
+    lista_obras=obras['value']
+    lista_3_3=lt.newList('ARRAY_LIST')
+    lt.addLast(lista_3_3,lt.getElement(lista_obras,1))
+    lt.addLast(lista_3_3,lt.getElement(lista_obras,2))
+    lt.addLast(lista_3_3,lt.getElement(lista_obras,3))
+    lt.addLast(lista_3_3,lt.getElement(lista_obras,-1))
+    lt.addLast(lista_3_3,lt.getElement(lista_obras,-2))
+    lt.addLast(lista_3_3,lt.getElement(lista_obras,-3))
+    lista_final=lt.newList('ARRAY_LIST')
+    lt.addLast(lista_final,lista_3_3)
+    lt.addLast(lista_final,top10)
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000
     print(elapsed_time_mseg)
 
 
+    return lista_final
+
+
 def requerimiento3(catalog, artista):
+    start_time = time.process_time()
     obras = catalog["Lista_obras"]
     artistas= catalog["Lista_artistas"]
 
@@ -245,17 +302,29 @@ def requerimiento3(catalog, artista):
         if x["Medium"]==retorno:
             lt.addLast(medio_mas_usado,x)
     lt.addLast(retorno1,medio_mas_usado)
-    return retorno1
 
-    
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000
+    print(elapsed_time_mseg)
 
+    #return retorno1
 
 def requerimiento5(catalog, departamento):
+    start_time = time.process_time()
     mapa=crearMapaReq5(catalog)
     departament= mp.get(mapa,departamento)
     obras=departament["value"]
     costos=calcularCostos(obras)
-    
+    retorno=lt.newList("ARRAY_LIST")
+
+    lt.addLast(retorno,costos)
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000
+    print(elapsed_time_mseg)
+
+
+   # return retorno
+
 
 def crearMapaReq5(catalog):
     mapa=mp.newMap(30000, maptype="PROBING" , loadfactor=0.8 )
@@ -351,5 +420,13 @@ def OrdenarFechas(artista1,artista2):
         Retorno=False
     return Retorno
 
+def OrdenarNacionalidad(e1,e2):
+    
+    Retorno=True
 
+    if int(e1[1])>=int(e2[1]):
+        Retorno=True
+    else:
+        Retorno=False
+    return Retorno
 
