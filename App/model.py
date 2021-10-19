@@ -117,8 +117,14 @@ def ordenarEdadAutores(catalog,inicio,final):
         if inicio<=int(i["BeginDate"])<=final:
             lt.addLast(lista,i)
     ordenados = sa.sort(lista,OrdenarFechas)
-    
-    return ordenados
+    retorno=lt.newList(datastructure='ARRAY_LIST')
+    lt.addLast(retorno, lt.size(ordenados))
+    primeros3=lt.subList(ordenados,1,3)
+    ultimos3=lt.subList(ordenados,int(lt.size(ordenados))-3,3)
+    for a in lt.iterator(ultimos3):
+        lt.addLast(primeros3,a)
+    lt.addLast(retorno,primeros3)
+    return retorno
 
 
 
@@ -142,20 +148,32 @@ def ordenarObras(dia1,mes1,anio1, dia2, mes2,anio2,catalogo):
     
     autores=lt.newList("ARRAY_LIST")
     for j in lt.iterator(lista):
-        lista=j["ConstituentID"]
-        lista=lista.replace('[',"")
-        lista=lista.replace(']',"")
-        lista=lista.replace(' ',"")
-        lista=lista.split(",")
+        lista1=j["ConstituentID"]
+        lista1=lista1.replace('[',"")
+        lista1=lista1.replace(']',"")
+        lista1=lista1.replace(' ',"")
+        lista1=lista1.split(",")
 
-        for k in lista:
+        for k in lista1:
             
            # if lt.isPresent(autores,k)==0:
 
             lt.addLast(autores,k)
+    compradas=lt.newList("ARRAY_LIST")
+    for x in lt.iterator(lista):
+        if x["CreditLine"]=="Purchase":
+                lt.addLast(compradas,x)
+    retorno=lt.newList("ARRAY_LIST")
 
-    return autores
+    lt.addLast(retorno,lt.size(compradas))
+    lt.addLast(retorno,lt.size(autores))
 
+    primeros3=lt.subList(lista,1,3)
+    ultimos3=lt.subList(lista,int(lt.size(lista))-3,3)
+    for a in lt.iterator(ultimos3):
+        lt.addLast(primeros3,a)
+    lt.addLast(retorno,primeros3)
+    return retorno
 def indiceNacionalidad(catalog):
     start_time = time.process_time()
     obras= catalog["Lista_obras"]
@@ -209,9 +227,27 @@ def requerimiento3(catalog, artista):
         if artista_cons in lista:
             lt.addLast(lista_obras,j)
 
-    contar = contarObras(lista_obras)
-    return contar
+    contadas1 = contarObras(lista_obras)
+    retorno=0
+    valor=0
+    for z in lt.iterator(mp.keySet(contadas1)):
+        variable= mp.get(contadas1,z)
+        if variable["value"]>valor:
+            retorno=z
+            valor=variable["value"]
 
+    retorno1=lt.newList("ARRAY_LIST")
+    medio_mas_usado=lt.newList("ARRAY_LIST")
+    lt.addLast(retorno1,retorno )
+    lt.addLast(retorno1,valor)    
+    
+    for x in lt.iterator(lista_obras):
+        if x["Medium"]==retorno:
+            lt.addLast(medio_mas_usado,x)
+    lt.addLast(retorno1,medio_mas_usado)
+    return retorno1
+
+    
 
 
 def requerimiento5(catalog, departamento):
@@ -289,7 +325,7 @@ def agregarAutores(catalog):
     
 
 def contarObras(catalog):
-    medios=mp.newMap(1949, maptype="CHAINING" , loadfactor=1.5)
+    medios=mp.newMap(20, maptype="PROBING" , loadfactor=0.8 )
     
     for i in lt.iterator(catalog):
         

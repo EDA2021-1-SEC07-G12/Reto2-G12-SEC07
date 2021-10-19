@@ -90,9 +90,10 @@ while True:
     
     elif int(inputs[0]) == 7:
         
-
+        
         print(controller.requerimiento5(catalog))
     
     else:
         sys.exit(0)
 sys.exit(0)
+    
