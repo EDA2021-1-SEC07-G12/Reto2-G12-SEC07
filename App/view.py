@@ -40,14 +40,14 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- Ordenar autores por intervalo de tiempo")
-    print("3- Ordenar obras por nacionalidad")
+    print("2- Ordenar autores por fecha de nacimiento")
+    print("3- Ordenar obras por fecha de adquisición")
     print("4- Ordenar medios de un artistas")
-    print("5- Ver mapa medios")
-    print("6- Organizar obras por fecha de adquisición")
-    print("7- Crear mapa departamento")
+    print("5- Ordenar obras por nacionalidad")
+    print("6- Calcular costo de transporte de las obras de un departamento")
+   
 catalog= controller.initCatalog()
-
+print("3- Ordenar obras por nacionalidad")
 """
 Menu principal
 """
@@ -69,9 +69,9 @@ while True:
         print(controller.artistas(catalog))
 
     elif int(inputs[0]) == 3:
-    
+        print(controller.organizar_obras(catalog))
 
-        print(controller.requerimiento4(catalog))
+        
     
     elif int(inputs[0]) == 4:
     
@@ -81,17 +81,13 @@ while True:
     elif int(inputs[0]) == 5:
         
 
-        print(controller.mapaMedios(catalog))
-    
+        
+        print(controller.requerimiento4(catalog))
     elif int(inputs[0]) == 6:
         
 
-        print(controller.organizar_obras(catalog))
-    
-    elif int(inputs[0]) == 7:
-        
-        
         print(controller.requerimiento5(catalog))
+    
     
     else:
         sys.exit(0)
