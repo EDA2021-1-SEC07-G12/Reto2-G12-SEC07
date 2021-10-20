@@ -142,7 +142,7 @@ def ordenarEdadAutores(catalog,inicio,final):
 #Prueba rama prueba
 
 def ordenarObras(dia1,mes1,anio1, dia2, mes2,anio2,catalogo):
-    start_time = time.process_time()
+    
     lista=lt.newList("ARRAY_LIST")
     inicial=date(anio1,mes1,dia1).isoformat()
     final=date(anio2,mes2,dia2).isoformat()
@@ -178,14 +178,22 @@ def ordenarObras(dia1,mes1,anio1, dia2, mes2,anio2,catalogo):
     ultimos3=lt.subList(lista,int(lt.size(lista))-3,3)
     for a in lt.iterator(ultimos3):
         lt.addLast(primeros3,a)
+    
+    for x in lt.iterator(primeros3):
+        id=x["ConstituentID"]
+        
+        id=id.replace('[',"")
+        id=id.replace(']',"")
+        id=id.replace(' ',"")
+        #print(id)
+        valor=mp.get(catalogo["Lista_artistas"],id)
+        x["Artista"]=valor["value"]["DisplayName"]
+        
     lt.addLast(retorno,primeros3)
-
-    stop_time = time.process_time()
-    elapsed_time_mseg = (stop_time - start_time)*1000
-    print(elapsed_time_mseg)
+    
 
 
-    #return retorno
+    return retorno
 
 def indiceNacionalidad(catalog):
     
@@ -282,6 +290,7 @@ def requerimiento3(catalog, artista):
         lista=lista.split(",")
         
         if artista_cons in lista:
+            
             lt.addLast(lista_obras,j)
 
     contadas1 = contarObras(lista_obras)
@@ -300,14 +309,14 @@ def requerimiento3(catalog, artista):
     
     for x in lt.iterator(lista_obras):
         if x["Medium"]==retorno:
+            x["Artist"]=artista
             lt.addLast(medio_mas_usado,x)
+    
+    
     lt.addLast(retorno1,medio_mas_usado)
 
-    stop_time = time.process_time()
-    elapsed_time_mseg = (stop_time - start_time)*1000
-    print(elapsed_time_mseg)
 
-    #return retorno1
+    return retorno1
 
 def requerimiento5(catalog, departamento):
     start_time = time.process_time()
