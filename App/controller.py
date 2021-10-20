@@ -102,8 +102,8 @@ def organizar_obras(catalog):
     return model.ordenarObras(dia1,mes1,anio1, dia2, mes2,anio2,catalog)
 
 def requerimiento5(catalog):
-
-    return model.requerimiento5(catalog,"Drawings & Prints" )
+    departamento=input("Introduce nombre del departamento cuyas obras serán transportadas: ")
+    return model.requerimiento5(catalog,departamento )
 
 def requerimiento4(catalog):
 
