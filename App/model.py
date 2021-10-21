@@ -117,7 +117,7 @@ def ordenarEdadAutores(catalog,inicio,final):
     for i in lt.iterator(mp.valueSet(autores)):
         if inicio<=int(i["BeginDate"])<=final:
             lt.addLast(lista,i)
-    ordenados = sa.sort(lista,OrdenarFechas)
+    ordenados = ms.sort(lista,OrdenarFechas)
     retorno=lt.newList(datastructure='ARRAY_LIST')
     lt.addLast(retorno, lt.size(ordenados))
     primeros3=lt.subList(ordenados,1,3)
@@ -179,7 +179,7 @@ def ordenarObras(dia1,mes1,anio1, dia2, mes2,anio2,catalogo):
     for a in lt.iterator(ultimos3):
         lt.addLast(primeros3,a)
     
-    
+    primeros3 = obtenerAutor(primeros3,mp.valueSet(catalogo["Lista_artistas"]))
         
     lt.addLast(retorno,primeros3)
     
@@ -317,7 +317,7 @@ def requerimiento3(catalog, artista):
     return retorno1
 
 def requerimiento5(catalog, departamento):
-
+    start_time = time.process_time()
     for a in lt.iterator(mp.valueSet(catalog["Lista_obras"])):
         if a["Date"]=="":
             a["Date"]=9999
@@ -348,6 +348,9 @@ def requerimiento5(catalog, departamento):
     lt.addLast(retorno,peso)
 
     lt.addLast(retorno,lt.size(obras))
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000
+    print(elapsed_time_mseg)
     return retorno
 
 
@@ -486,23 +489,26 @@ def Peso(lista):
 
 def obtenerAutor(lista,lista_autores):
     for i in  lt.iterator(lista):
-        lista1=[]
-        lista2=[]
+        lista1=lt.newList("ARRAY_LIST")
+        lista2=lt.newList("ARRAY_LIST")
+      
         for j in lt.iterator(lista_autores):
             autor=i["ConstituentID"]
             autor=autor.replace("[","")
             autor=autor.replace("]","")
+            autor=autor.replace(" ", "")
             autor=autor.split(",")
             
         for k in autor:
-            k=k.replace(" ", "")
-            lista1.append(k)
-
+           
+            
+            lt.addLast(lista1,k)
         for h in lt.iterator(lista_autores):
-            for n in lista1:
+            for n in lt.iterator(lista1):
 
                 if h["ConstituentID"]==n:
-                    lista2.append(h["DisplayName"])
+        
+                    lt.addLast(lista2,h["DisplayName"])
             i["Autores"]=lista2
     return lista
 def OrdenarCostos(obra1,obra2):
