@@ -60,34 +60,66 @@ while True:
        # 
         print( "Cantidad de artistas cargados: " + str(controller.ArtistSize(catalog)))
         print("Cantidad de obras cargadas: " + str(controller.ArtworkSize(catalog)))
-        #print(controller.ArtworkSize(catalog))
+        print(controller.ArtworkSize(catalog))
         
         
     elif int(inputs[0]) == 2:
 
 
-        print(controller.artistas(catalog))
+        lista= controller.artistas(catalog)
+        print("El numero de artistas en el intervalo es de " + str(lt.getElement(lista,1)))
+        print("Los 3 primeros y ultimos artistas encontrados en el intervalo de tiempo son: ")
+
+        for i in lt.iterator(lt.getElement(lista,2)):
+            print(i)
 
     elif int(inputs[0]) == 3:
-        print(controller.organizar_obras(catalog))
-
+        lista= controller.organizar_obras(catalog)
+        print("El numero de obras compradas por el museo es de " + str(lt.getElement(lista,1)))
+        print("El numero de obras total en el intervalo es de " + str(lt.getElement(lista,2)))
+        print("Las 3 primeras y ultimas obras en el intervalo de tiempo insertado son ")
+        for i in lt.iterator(lt.getElement(lista,3)):
+            print(i) 
         
     
     elif int(inputs[0]) == 4:
     
 
-        print(controller.requerimiento3(catalog))
+        lista=controller.requerimiento3(catalog)
+        print(lista)
+        print("Los cinco medios mas utilizados fueron ")
+        for j in lt.iterator(lt.getElement(lista,4)):
+            print(j["key"]+ " "  + str(j["value"])) 
+        print("El medio mas utilizado fue " + str(lt.getElement(lista,1)) + " Con " + str(lt.getElement(lista,2)) + " usos")
+        print("Las obras con el medio mas utilizado fueron: ")
+        for i in lt.iterator(lt.getElement(lista,3)):
+            print(i) 
+
 
     elif int(inputs[0]) == 5:
         
 
         
-        print(controller.requerimiento4(catalog))
+        resp=controller.requerimiento4(catalog)
+        paises=lt.getElement(resp,2)
+        obras=lt.getElement(resp,1)
+        for i in lt.iterator(paises):
+            print (i[0]+'   '+str(i[1]))
+        print (obras)
     elif int(inputs[0]) == 6:
         
 
-        print(controller.requerimiento5(catalog))
-    
+       lista = controller.requerimiento5(catalog)
+       
+       print("La cantidad de obras a transportar es de " + str(lt.getElement(lista,5)))
+       print("El peso de las obras obras a transportar es de " + str(lt.getElement(lista,4)))
+       print("El costo total del transporte es de " + str(lt.getElement(lista,3)))
+       print("Las obras mas costosas a transportar son ")
+       for i in lt.iterator(lt.getElement(lista,1)):
+            print(i) 
+       print("Las obras mas antiguas a transportar son ")
+       for j in lt.iterator(lt.getElement(lista,2)):
+            print(j) 
     
     else:
         sys.exit(0)
